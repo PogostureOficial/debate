@@ -1,0 +1,187 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Campaña Electoral — Juego de rol político</title><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🗳️%3C/text%3E%3C/svg%3E">
+<style>
+:root{--bg:#eef2f7;--p:#fff;--p2:#e8edf4;--t:#12263f;--m:#5b6b80;--l:#d3dce8;--a:#1d5fa8;--h:#0d2d52;--g:#e8a317;--r:#c0392b;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0c1624;--p:#14233a;--p2:#1c3050;--t:#e8eef7;--m:#93a4bb;--l:#27405f;--a:#74acdf;--h:#081a2e;--g:#f2b633;--r:#e8786b}}
+:root[data-theme="dark"]{--bg:#0c1624;--p:#14233a;--p2:#1c3050;--t:#e8eef7;--m:#93a4bb;--l:#27405f;--a:#74acdf;--h:#081a2e;--g:#f2b633;--r:#e8786b}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--t);font:14px/1.45 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-variant-numeric:tabular-nums}
+h1{font-size:21px;margin:0;font-weight:800;letter-spacing:.01em}h2{font-size:18px;margin:0 0 10px;font-weight:800}h3{font-size:14px;margin:0;font-weight:700}
+header{background:var(--h);color:#fff;padding:10px 16px 0;position:sticky;top:env(safe-area-inset-top,0px);z-index:5;border-bottom:4px solid #74acdf}
+.brand{display:flex;gap:10px;align-items:center;padding-bottom:8px}.brand span{font-size:12px;color:#a9bdd6}
+nav{display:flex;flex-wrap:wrap;gap:2px}nav button{background:transparent;border:0;border-radius:0;color:#cfe0f3;padding:8px 12px;font-weight:600}nav button:hover{color:#fff}nav button.on{color:#fff;box-shadow:inset 0 -4px 0 var(--g);background:transparent}
+button,select,input,textarea{background:var(--p);color:var(--t);border:1px solid var(--l);border-radius:6px;padding:6px 9px;font:inherit;font-size:13px}
+button{cursor:pointer;font-weight:600}button:hover{border-color:var(--a)}button.pri{background:var(--a);color:#fff;border-color:var(--a)}button.bad{border-color:var(--r);color:var(--r)}
+:root:not([data-theme="dark"]) button.pri{color:#fff}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--g);outline-offset:1px}
+main{padding:16px;max-width:1150px;margin:0 auto}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(320px,1fr))}
+.card{background:var(--p);border:1px solid var(--l);border-radius:8px;padding:14px}
+.bol{padding:0;overflow:hidden;box-shadow:0 1px 0 var(--l)}.bol>*:not(.bh){margin-left:14px;margin-right:14px}.bol>*:last-child{margin-bottom:14px}
+.bh{display:flex;align-items:center;gap:12px;padding:12px 14px;margin-bottom:10px}.bh .sg{font-size:30px;font-weight:900;letter-spacing:.02em}.bh span{font-weight:700;font-size:15px}
+.lema{font-style:italic;color:var(--m);margin:2px 0}
+.row{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:6px 0}.m{color:var(--m);font-size:12px}
+.bar{height:9px;background:var(--p2);border-radius:5px;overflow:hidden;flex:1;min-width:60px}.bar i{display:block;height:100%;background:var(--a)}
+.st{display:grid;grid-template-columns:120px 1fr 28px;gap:6px;align-items:center;font-size:12px;margin:2px 0}
+.tw{overflow-x:auto}table{border-collapse:collapse;width:100%}th,td{padding:6px;border-bottom:1px solid var(--l);text-align:left;font-size:13px}th{color:var(--m);font-weight:700;font-size:12px}
+input[type=number]{width:54px}input.w{width:100%}textarea{width:100%;min-height:60px}
+.die{display:inline-flex;width:34px;height:34px;align-items:center;justify-content:center;border:2px solid var(--g);color:var(--g);border-radius:8px;font-weight:800;animation:rl .5s}
+@keyframes rl{from{transform:rotate(300deg) scale(.6)}to{transform:none}}@media(prefers-reduced-motion:reduce){.die{animation:none}}
+.chip{display:inline-block;width:14px;height:14px;border-radius:3px;background:var(--c);vertical-align:middle;margin-right:6px}
+.pos{color:var(--g)}.neg{color:var(--r)}
+.tv{--p:#0d2d52;--p2:#173f6e;--t:#fff;--m:#a9bdd6;--l:#24507f;background:#0d2d52;color:#fff;border-radius:8px;overflow:hidden;border:1px solid #24507f}
+.tvh{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 16px;background:#081a2e;border-bottom:3px solid #e8a317;font-weight:800;font-size:18px;letter-spacing:.03em}
+.tr{display:flex;align-items:center;gap:14px;padding:12px 16px;border-bottom:1px solid #24507f}.tr:last-of-type{border-bottom:0}
+.pn{font-size:26px;font-weight:900;width:44px;color:#e8a317}.sgb{min-width:76px;text-align:center;padding:10px 8px;border-radius:4px;font-size:20px;font-weight:900}
+.nm{flex:1;min-width:120px}.nm b{font-size:19px}.nm small{display:block;color:#a9bdd6;margin-bottom:5px}.nm .bar{background:#173f6e;height:12px}
+.num{text-align:right;min-width:70px}.num b{font-size:30px;font-weight:900;display:block;line-height:1}.num small{color:#a9bdd6}.num.big b{font-size:42px}
+.win{background:#e8a317;color:#081a2e;font-size:12px;font-weight:900;padding:2px 8px;border-radius:3px;margin-left:8px;vertical-align:middle}
+.narr{padding:14px 16px;margin:0;font-size:16px;border-top:1px solid #24507f;color:#d8e6f6}
+.note{background:var(--g);color:#081a2e;padding:8px 12px;border-radius:6px;margin-bottom:10px;font-weight:600}
+.trk{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:0 0 14px}
+.tk{position:relative;background:var(--p);border:1px solid var(--l);border-top:5px solid var(--c);border-radius:6px;padding:6px 8px;opacity:.55;font-size:12px;min-height:56px}
+.tk b{display:block;font-size:16px;color:var(--c)}.tk.cur{opacity:1;box-shadow:0 0 0 2px var(--c)}.tk.done{opacity:1;background:var(--p2)}
+.tk em{position:absolute;right:6px;top:6px;font-style:normal;font-weight:900;font-size:11px;padding:2px 6px;border-radius:3px}
+.rc{display:flex;gap:18px;align-items:center;background:var(--c);color:#fff;border-radius:8px;padding:18px 20px;margin-bottom:12px}
+.rn{font-size:68px;font-weight:900;line-height:1;opacity:.85}.rc h2{font-size:28px;margin:0 0 4px}.rq{font-size:17px;margin:0 0 8px}.rc ul{margin:0;padding-left:18px}
+.rv{display:inline-block;background:#fff;color:#12263f;font-weight:800;border-radius:4px;padding:2px 8px;font-size:13px;margin-bottom:6px}
+.phs{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-bottom:12px}.phs div{padding:8px;border-bottom:4px solid var(--l);font-size:12px;color:var(--m)}.phs .d{border-color:var(--a)}.phs .c{border-color:var(--g);color:var(--t)}.phs small{display:block;font-weight:400}
+.pr{display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--l)}.pl{min-width:170px;flex:1}
+.segs{display:flex;gap:3px}.seg{width:22px;height:30px;padding:0;border-radius:3px;background:var(--p2)}.seg.on{background:var(--c);border-color:var(--c)}
+.cb.on.c0{background:#2a8f5a;color:#fff;border-color:#2a8f5a}.cb.on.c1{background:var(--g);color:#081a2e;border-color:var(--g)}.cb.on.c2{background:var(--r);color:#fff;border-color:var(--r)}
+.sgb2{display:inline-block;padding:3px 8px;border-radius:3px;font-weight:900;margin-right:6px}
+@media(max-width:640px){.tk span{font-size:11px}.rc{flex-direction:column;align-items:flex-start}.seg{width:17px}.phs small{display:none}}
+.bud{display:flex;align-items:center;gap:10px;margin:6px 0}
+.al{display:grid;grid-template-columns:150px 34px 1fr 34px 28px;gap:6px;align-items:center;margin:4px 0}.al button{padding:4px 0}
+.segs2{display:flex;gap:3px}.segs2 i{flex:1;height:16px;border-radius:2px;background:var(--p2)}.segs2 i.on{background:var(--a)}
+@media(max-width:520px){.al{grid-template-columns:100px 32px 1fr 32px 24px}}
+.qrb{background:#fff;padding:10px;display:inline-block;margin-top:8px;border-radius:6px}.note textarea{margin-top:6px;background:#fff;color:#000;min-height:80px}
+</style><script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script></head><body><header><div class="brand"><svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><rect x="14" y="3" width="12" height="17" rx="1" fill="#fff" transform="rotate(-8 20 12)"/><path d="M17 9l2.5 2.5 4.5-5" stroke="#0d2d52" stroke-width="2" fill="none" transform="rotate(-8 20 12)"/><rect x="6" y="17" width="28" height="19" rx="2" fill="#74acdf"/><rect x="12" y="20" width="16" height="3" rx="1.5" fill="#0d2d52"/></svg><div><h1>Campaña Electoral</h1><span>Simulación de Política y Ciudadanía</span></div></div><nav id="nav"></nav></header><main id="app"></main>
+<script>
+const CFG0={
+stats:["Economía y trabajo","Seguridad","Educación y salud","Derechos sociales","Ambiente"],
+ideologies:{"Izquierda":[5,3,7,8,5],"Verde":[4,3,6,6,9],"Peronismo":[7,5,6,7,3],"Centro derecha":[8,7,5,3,5],"Derecha radical":[8,10,4,3,3]},
+
+topics:[
+{n:"Economía y trabajo",c:"#9a6410",q:"¿Cómo se crea trabajo y cómo se reparte la riqueza?",e:["Modelo económico y rol del Estado","Empleo, salarios e impuestos","Inflación, deuda y financiamiento"],w:{0:1}},
+{n:"Seguridad",c:"#a63a32",q:"¿Cómo se cuida a la ciudadanía y qué límites tiene el Estado?",e:["Prevención y castigo","Fuerzas de seguridad y Justicia","Derechos y garantías"],w:{1:1}},
+{n:"Educación y salud",c:"#23785a",q:"¿Qué debe garantizar el Estado en las escuelas y los hospitales?",e:["Acceso y calidad","Financiamiento público y privado","Nación y provincias"],w:{2:1}},
+{n:"Derechos sociales",c:"#6a4399",q:"¿Qué derechos se garantizan y quién los garantiza?",e:["Vivienda, jubilaciones y asistencia","Igualdad y diversidad","Derechos y costos"],w:{3:1}},
+{n:"Ambiente",c:"#1f7580",q:"¿Cómo se concilia producción, recursos naturales y cuidado del ambiente?",e:["Minería, agro y energía","Regulación y control","Cambio climático y futuro"],w:{4:1}}],
+mods:[[2,-2],[4,-1],[6,0],[8,1],[99,2]],
+rubric:["Argumentación","Coherencia","Respuesta","Creatividad","Viabilidad"],
+cats:[["Compatible",0,0],["Parcialmente compatible",-1,0],["Contradictoria",-2,-1]],
+points:[5,3,2,1,0],popDelta:[4,2,0,-1,-3],dice:[20,12,10,6],modCap:4,
+vote:{pts:.35,pop:.25,fin:.25,coh:.15}};
+let CFG,S;const clamp=(x,a,b)=>Math.max(a,Math.min(b,x)),$=s=>document.querySelector(s),uid=()=>'p'+Math.random().toString(36).slice(2,7);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const L=m=>S.log.unshift({t:new Date().toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'}),m}),P=id=>S.parties.find(p=>p.id==id);
+function save(){try{localStorage.setItem('ce3',JSON.stringify({CFG,S}))}catch(e){}}
+function load(){try{const d=JSON.parse(localStorage.getItem('ce3'));if(d&&d.S){CFG=d.CFG;S=d.S;return}}catch(e){}reset()}
+function reset(){CFG=JSON.parse(JSON.stringify(CFG0));S={parties:[],log:[],R:null,view:'parties',blank:5,N:1000,final:0,grp:null}}
+const eff=p=>p.stats;
+function mod(p,t){const s=eff(p);let a=0,n=0;for(const i in t.w){a+=t.w[i]*s[i];n+=t.w[i]}a/=n;return CFG.mods.find(([th])=>a<=th)[1]}
+function calc(p){const sc=S.R.sc[p.id]||(S.R.sc[p.id]={b:0,cat:0,cn:0,d:0}),t=CFG.topics.find(x=>x.n==S.R.t),b=sc.b*2,m=mod(p,t),o=sc.cat+(sc.cp?2:0);return{p,sc,b,m,o,tot:b+m+o}}
+const rank=()=>S.parties.map(calc).sort((x,y)=>y.tot-x.tot||((y.sc.d?y.sc.d+y.m:0)-(x.sc.d?x.sc.d+x.m:0)));
+const sg=n=>(n>0?'+':'')+n;
+// acciones
+function view(v){S.view=v;S.ask=null;S.grp=null;save();render()}
+const BUD=28,EMB=window.self!==window.top,BASE=EMB?'https://claude.ai/artifact/BbwdWV9EgK1QZUXY2pBVvo':location.href.split('#')[0];let GM=null;
+const GT=["Pónganse de acuerdo: ¿qué propone su partido ante este tema y por qué?","El/la vocero/a presenta la posición del partido ante el curso.","Respondan a los demás partidos: acuerdos, diferencias y preguntas.","Refuten los argumentos que van contra su posición.","El docente califica. Miren cómo les fue."];
+const enc=o=>btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+const dec=c=>{c=c.replace(/-/g,'+').replace(/_/g,'/');while(c.length%4)c+='=';return JSON.parse(decodeURIComponent(escape(atob(c))))};
+function readHash(){const m=location.hash.match(/g=([\w-]+)/);if(m){try{GM=dec(m[1])}catch(e){GM=null}}}
+function snap(p){return enc({p:{n:p.name,s:p.sigla,c:p.color,l:p.lema,k:p.cand,i:p.ideo,st:p.stats,cp:capOf(p),pt:p.pts},tb:S.parties.map(q=>[q.sigla||q.name.slice(0,4),q.name,q.color,q.pts]),r:S.R?{i:S.R.i,ph:S.R.ph,m:S.R.imp}:null,
+h:S.log.filter(x=>x.rs).map(x=>{const r=x.rs.find(y=>y.id==p.id);return r?[x.ti,r.pos,r.pts]:null}).filter(Boolean),
+w:S.log.filter(x=>x.topic).map(x=>{const q=P(x.win);return q?[CFG.topics.findIndex(t=>t.n==x.topic),q.sigla||q.name.slice(0,3),q.color]:null}).filter(Boolean),fin:S.log.filter(x=>x.topic).length>=CFG.topics.length?1:0,t:Date.now()})}
+const glink=p=>(S.base||BASE).split('#')[0]+'#g='+snap(p);
+function cp(id,k){const p=P(id),t=k=='l'?glink(p):snap(p),fb=()=>{S.tx=t;render()};try{navigator.clipboard.writeText(t).then(()=>msg('Copiado. Pegalo en el chat del grupo.'),fb)}catch(e){fb()}}
+function qr(id,k){const el=document.getElementById('q'+id),t=id=='base'?(S.base||BASE).split('#')[0]:k=='l'?glink(P(id)):snap(P(id));el.innerHTML='';try{if(typeof QRCode=='undefined'||t.length>2300)throw 0;el.className='qrb';new QRCode(el,{text:t,width:id=='base'?240:300,height:id=='base'?240:300,correctLevel:QRCode.CorrectLevel.L})}catch(e){el.className='';el.innerHTML='<p class="m">No se pudo generar el QR. Usá Copiar código.</p>'}}
+function pasteG(){const t=$('#pc2').value.trim(),m=t.match(/g=([\w-]+)/);try{GM=dec(m?m[1]:t);render()}catch(e){msg('No pude leer ese código. Pedile uno nuevo al docente.')}}
+const landing=()=>`<h2>¿Quién sos?</h2><div class="grid"><div class="card"><h3>Soy docente</h3><p class="m">Armo la partida, manejo las rondas y reparto las fichas.</p><button class="pri" onclick="S.role='dm';save();render()">Entrar como docente</button></div><div class="card"><h3>Soy un grupo</h3><p class="m">Veo la ficha de mi partido con el código que me dio el docente.</p><button class="pri" onclick="S.role='grp';render()">Ver mi ficha</button></div></div>`;
+const vPaste=()=>`<h2>Mi ficha</h2><div class="card"><p class="m">Pegá acá el código de tu partido. Si lo escaneaste con un QR, copiá el texto que aparece y pegalo.</p><textarea id="pc2" placeholder="Código de la ficha"></textarea><div class="row"><button class="pri" onclick="pasteG()">Ver mi ficha</button><button onclick="S.role=null;render()">Volver</button></div></div>`;
+function vFichas(){return EMB?vFichasE():vFichasW()}
+function vFichasE(){if(!S.parties.length)return'<p>Primero creá los partidos.</p>';
+return `<h2>Fichas para los celulares</h2><div class="card"><p class="m">El link con la ficha adentro no llega a la página desde el celular, así que se hace en dos pasos:</p><ol class="m"><li>Los grupos abren la página con este QR (o con el link) y tocan <b>Soy un grupo</b>.</li><li>Cada grupo recibe <b>su código</b> (por mensaje, o escaneando el QR de su partido y copiando el texto que aparece) y lo pega en <b>Ver mi ficha</b>.</li></ol><p class="m">La ficha no se actualiza sola: cuando cambien los puntos o la ronda, mandá un código nuevo.</p><label class="m">Link de la página publicada<input class="w" value="${esc(S.base||BASE)}" onchange="S.base=this.value.trim();save()"></label><div class="row"><button onclick="qr('base')">Mostrar QR de la página</button></div><div id="qbase"></div></div><div class="grid" style="margin-top:12px">`+S.parties.map(p=>`<div class="card bol">${bol(p)}<div class="m">El código se genera con los datos de este momento.</div><div class="row"><button onclick="cp('${p.id}','c')">Copiar código</button><button onclick="qr('${p.id}')">Mostrar QR del código</button></div><div id="q${p.id}"></div></div>`).join('')+`</div>`}
+function vFichasW(){if(!S.parties.length)return'<p>Primero creá los partidos.</p>';
+return `<h2>Fichas para los celulares</h2><div class="card"><p class="m">Cada grupo abre su link o escanea su QR y ve su ficha tal como está en ese momento. No se actualiza sola: cuando cambien los puntos o la ronda, copiá o mostrá la ficha de nuevo. Si el link no abre la ficha, el grupo puede tocar <b>Soy un grupo</b> y pegar el código.</p></div><div class="grid" style="margin-top:12px">`+S.parties.map(p=>`<div class="card bol">${bol(p)}<div class="m">La ficha se genera con los datos de este momento.</div><div class="row"><button onclick="cp('${p.id}','l')">Copiar link</button><button onclick="cp('${p.id}','c')">Copiar código</button><button onclick="qr('${p.id}','l')">Mostrar QR</button></div><div id="q${p.id}"></div></div>`).join('')+`</div>`}
+function vGM(o){const p=o.p,r=o.r,tp=r?CFG.topics[r.i]:null,done=o.fin,w=o.w||[];
+const tr=`<div class="trk">`+CFG.topics.map((t,i)=>{const x=w.find(y=>y[0]==i);return `<div class="tk${r&&r.i==i?' cur':''}${x?' done':''}" style="--c:${t.c}"><b>${i+1}</b><span>${t.n}</span>${x?`<em style="background:${x[2]};color:${ink(x[2])}">${esc(x[1])}</em>`:''}</div>`}).join('')+`</div>`;
+const mo=()=>{const v=p.st[r.i];return CFG.mods.find(([th])=>v<=th)[1]};
+return `<div class="card bol"><div class="bh" style="background:${p.c};color:${ink(p.c)}"><b class="sg">${esc(p.s||p.n.slice(0,4))}</b><span>${esc(p.n)}</span></div><div><b>${esc(p.k)}</b> <span class="m">candidato/a · ${esc(p.i)}</span></div><div class="lema">“${esc(p.l)}”</div><div class="row"><b>Puntos ${p.pt}</b><b>Capital político ${p.cp}</b></div></div>`+tr+
+(r?rcard(tp,r.i+1,r.m)+phb(r.ph)+`<div class="card"><b>Ahora: ${PH[r.ph]}</b><p>${GT[r.ph]}</p><p class="m">Ventaja de su partido en este tema: <b>${sg(mo())}</b></p>${r.ph==4?'<p class="m">Si quieren usar capital político (+2) en esta ronda, avisen al docente.</p>':''}</div>`:done?'<div class="card"><b>La campaña terminó.</b> Miren la tabla de posiciones.</div>':'<div class="card">Todavía no empezó la próxima ronda. Esperen las indicaciones del docente.</div>')+
+`<h3 style="margin:14px 0 6px">Nuestras estadísticas</h3><div class="card">${bars({stats:p.st})}</div><h3 style="margin:14px 0 6px">Nuestro historial</h3><div class="card">${o.h.length?o.h.map(x=>`<div>${CFG.topics[x[0]].n}: <b>${x[1]}.º puesto</b> · +${x[2]} puntos</div>`).join(''):'<span class="m">Todavía no jugaron ninguna ronda.</span>'}</div><h3 style="margin:14px 0 6px">Tabla de posiciones</h3><div class="tv">${rows(o.tb.map(q=>({name:q[1],sigla:q[0],color:q[2],pts:q[3],cand:''})).sort((a,b)=>b.pts-a.pts),Math.max(1,...o.tb.map(q=>q[3])),done)}</div><p class="m">Ficha generada a las ${new Date(o.t).toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'})}. No se actualiza sola: si cambió algo, pedí una ficha nueva.</p>`}
+const D=()=>S.draft||(S.draft={pn:'',ps:'',pi:Object.keys(CFG.ideologies)[0],pc:'#5aa9e6',pl:'',pcn:'',pd:'',st:[1,1,1,1,1]});
+function dr(k,v){D()[k]=v;save()}
+function ds(i,d){const x=D().st,left=BUD-x.reduce((a,b)=>a+b,0);if(d>0&&(left<1||x[i]>=10))return;if(d<0&&x[i]<=1)return;x[i]+=d;save();render()}
+function dsug(){D().st=[...CFG.ideologies[D().pi]];save();render()}
+function addParty(){const d=D(),sum=d.st.reduce((a,b)=>a+b,0);if(!d.pn.trim())return msg('Poné un nombre al partido.');if(sum!=BUD)return msg(`Repartí todos los puntos: faltan ${BUD-sum}.`);
+S.parties.push({id:uid(),name:d.pn.trim(),sigla:d.ps.trim(),ideo:d.pi,color:d.pc,lema:d.pl.trim(),cand:d.pcn.trim(),desc:d.pd.trim(),props:'',dist:'',stats:[...d.st],cap:3,pts:0,code:String(1000+Math.floor(Math.random()*9000))});L('Nuevo partido: '+d.pn.trim());S.draft=null;save();render()}
+function creator(){const d=D(),sum=d.st.reduce((a,b)=>a+b,0),left=BUD-sum;
+return `<div class="card"><h3>Inscribir partido</h3><p class="m">El docente asigna la corriente. El grupo elige nombre, colores y reparte ${BUD} puntos entre las 5 áreas: lo que sube en una baja en otra. Con 7–8 en un tema la ronda arranca con +1, con 9–10 con +2; con 3–4 arranca con −1 y con 1–2 con −2.</p>
+<div class="row"><label class="m">Corriente asignada <select onchange="dr('pi',this.value)">${Object.keys(CFG.ideologies).map(i=>`<option ${i==d.pi?'selected':''}>${i}</option>`).join('')}</select></label></div>
+<div class="row"><input placeholder="Nombre del partido" value="${esc(d.pn)}" oninput="dr('pn',this.value)"><input placeholder="Sigla" size="6" value="${esc(d.ps)}" oninput="dr('ps',this.value)"><input type="color" value="${d.pc}" title="Color" oninput="dr('pc',this.value)"></div>
+<div class="row"><input placeholder="Lema" value="${esc(d.pl)}" oninput="dr('pl',this.value)"><input placeholder="Candidato/a" value="${esc(d.pcn)}" oninput="dr('pcn',this.value)"></div>
+<textarea placeholder="Breve descripción" oninput="dr('pd',this.value)">${esc(d.pd)}</textarea>
+<h3 style="margin-top:12px">¿En qué es fuerte su partido?</h3>
+<div class="bud"><div class="bar"><i style="width:${sum/BUD*100}%"></i></div><b>${left?'Faltan repartir '+left:'Todos los puntos repartidos'}</b></div>
+${CFG.stats.map((n,i)=>`<div class="al"><span>${n}</span><button onclick="ds(${i},-1)" aria-label="Bajar ${n}">−</button><div class="segs2">${Array.from({length:10},(_,k)=>`<i class="${k<d.st[i]?'on':''}"></i>`).join('')}</div><button onclick="ds(${i},1)" aria-label="Subir ${n}">+</button><b>${d.st[i]}</b></div>`).join('')}
+<div class="row"><button onclick="dsug()">Cargar perfil típico de la corriente</button><button class="pri" onclick="addParty()">Crear partido</button></div></div>`}
+function up(id,k,v){P(id)[k]=v;save()}function upn(id,k,v){P(id)[k]=+v;save();render()}
+function adj(id,k,d,i){const p=P(id);if(k=='cap')p.cap=Math.max(0,capOf(p)+d);else p[k]=k=='pop'?clamp(p[k]+d,0,100):k=='coh'?clamp(p[k]+d,0,10):p[k]+d;L(`Ajuste manual ${p.name}: ${k=='cap'?'capital político':k=='pts'?'puntos':k} ${sg(d)}`);save();render()}
+function delP(id){ask('d'+id,()=>{S.parties=S.parties.filter(p=>p.id!=id);save();render()})}
+function ask(k,fn){if(S.ask==k){S.ask=null;fn()}else{S.ask=k;render();setTimeout(()=>{if(S.ask==k){S.ask=null;render()}},4000)}}
+function msg(t){S.msg=t;render()}
+const PH=["Preparación","Intervenciones","Réplicas","Refutación","Evaluación"],PT=["3 min","2 min por partido","1 min por réplica","3 min","califica el docente"];
+function startRound(){const i=+$('#tp').value,t=CFG.topics[i];S.R={t:t.n,i,imp:+$('#im').value,die:+$('#dd').value,ph:0,sc:{}};S.parties.forEach(p=>S.R.sc[p.id]={b:0,cat:0,cn:0,d:0});L(`Ronda: ${t.n} (×${S.R.imp})`);save();render()}
+function scp(id){const s=S.R.sc[id];s.cp=!s.cp;save();render()}
+function ph(d){S.R.ph=clamp(S.R.ph+d,0,4);save();render()}
+function sb(id,v){const s=S.R.sc[id];s.b=s.b==v?v-1:v;save();render()}
+function sk(id,i){const s=S.R.sc[id];s.cn=i;s.cat=CFG.cats[i][1];save();render()}
+function roll(id){S.R.sc[id].d=1+Math.floor(Math.random()*S.R.die);save();render()}
+function closeRound(){const rk=rank(),imp=S.R.imp,res=[];rk.forEach((r,i)=>{const pts=Math.ceil((CFG.points[i]||0)*imp);r.p.pts+=pts;if(r.sc.cp){r.p.cap=Math.max(0,capOf(r.p)-1);L(`${r.p.name} usó capital político`)}res.push({id:r.p.id,n:r.p.name,pos:i+1,pts})});
+S.log.unshift({t:new Date().toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'}),m:`Cierre de ${S.R.t} (×${imp}): `+res.map(x=>`${x.pos}.º ${x.n} (+${x.pts})`).join(', '),topic:S.R.t,win:res[0].id,rs:res,ti:S.R.i});S.R=null;save();render()}
+function narr(){const r=[...S.parties].sort((a,b)=>b.pts-a.pts),w=r[0];if(!w)return'';const tw=[...new Set(S.log.filter(x=>x.win==w.id).map(x=>x.topic))];return `${w.name} ganó la campaña con ${w.pts} puntos${tw.length?', tras imponerse en '+tw.join(', '):''}.${r[1]?` Segundo quedó ${r[1].name} (${r[1].pts}).`:''}`}
+// vistas
+const ink=c=>{const n=parseInt(c.slice(1),16),y=((n>>16)*299+((n>>8&255)*587)+((n&255)*114))/1000;return y>150?'#10202f':'#fff'};
+const bol=p=>`<div class="bh" style="background:${p.color};color:${ink(p.color)}"><b class="sg">${esc(p.sigla||p.name.slice(0,4))}</b><span>${esc(p.name)}</span></div>`;
+const capOf=p=>p.cap??3;
+const bars=(p,pub)=>{const s=eff(p,pub);return s.map((v,i)=>`<div class="st"><span>${CFG.stats[i]}</span><div class="bar"><i style="width:${v*10}%"></i></div><b>${v}${v!=p.stats[i]?` <span class="${v>p.stats[i]?'pos':'neg'}">${sg(v-p.stats[i])}</span>`:''}</b></div>`).join('')};
+const ctr=(id,k,l,v)=>`<span>${l} <b>${v}</b> <button onclick="adj('${id}','${k}',-1)">−</button><button onclick="adj('${id}','${k}',1)">+</button></span>`;
+function vParties(){const o=Object.keys(CFG.ideologies).map(i=>`<option>${i}</option>`).join('');
+return `<h2>Partidos</h2>${creator()}<div class="grid" style="margin-top:12px">`+S.parties.map(p=>`<div class="card bol">${bol(p)}<div><b>${esc(p.cand)}</b> <span class="m">candidato/a · ${p.ideo} · código <b>${p.code}</b></span></div><div class="lema">“${esc(p.lema)}”</div><div class="m">${esc(p.desc)}</div>
+<div class="row">${ctr(p.id,'pts','Puntos',p.pts)}</div>
+<div class="row">${ctr(p.id,'cap','Capital político',capOf(p))}</div>
+<details><summary>Estadísticas</summary>${bars(p)}</details>
+<details><summary>Propuestas y rasgo distintivo</summary><textarea placeholder="3 propuestas centrales" onchange="up('${p.id}','props',this.value)">${esc(p.props)}</textarea><input class="w" placeholder="Característica distintiva" value="${esc(p.dist)}" onchange="up('${p.id}','dist',this.value)"></details>
+<div class="row"><button class="bad" onclick="delP('${p.id}')">${S.ask=='d'+p.id?'¿Seguro?':'Eliminar'}</button></div></div>`).join('')+`</div>`}
+const track=()=>`<div class="trk">`+CFG.topics.map((t,i)=>{const e=S.log.find(x=>x.topic==t.n),w=e&&P(e.win);return `<div class="tk${S.R&&S.R.i==i?' cur':''}${e?' done':''}" style="--c:${t.c}"><b>${i+1}</b><span>${t.n}</span>${w?`<em style="background:${w.color};color:${ink(w.color)}">${esc(w.sigla||w.name.slice(0,3))}</em>`:''}</div>`}).join('')+`</div>`;
+const rcard=(t,n,imp)=>`<div class="rc" style="--c:${t.c}"><div class="rn">${n}</div><div>${imp>1?`<span class="rv">Vale ×${imp}</span>`:''}<h2>${t.n}</h2><p class="rq">${t.q}</p><ul>${t.e.map(e=>`<li>${e}</li>`).join('')}</ul></div></div>`;
+const phb=(h=S.R.ph)=>`<div class="phs">`+PH.map((p,i)=>`<div class="${i<h?'d':i==h?'c':''}"><b>${p}</b><small>${PT[i]}</small></div>`).join('')+`</div>`;
+const rows=(r,mx,fin)=>r.map((p,i)=>`<div class="tr"><span class="pn">${i+1}${fin?'.º':''}</span><span class="sgb" style="background:${p.color};color:${ink(p.color)}">${esc(p.sigla||p.name.slice(0,4))}</span><div class="nm"><b>${esc(p.name)}</b>${fin&&p.pts==r[0].pts?`<span class="win">${r.filter(q=>q.pts==r[0].pts).length>1?'EMPATE':'GANADOR'}</span>`:''}<small>${esc(p.cand)}</small><div class="bar"><i style="width:${p.pts/mx*100}%;background:${p.color}"></i></div></div><div class="num ${fin?'big':''}"><b>${p.pts}</b><small>puntos</small></div></div>`).join('');
+const sorted=()=>[...S.parties].sort((a,b)=>b.pts-a.pts),mxp=()=>Math.max(1,...S.parties.map(p=>p.pts));
+const allDone=()=>S.log.filter(x=>x.topic).length>=CFG.topics.length;
+function finalBoard(){return `<div class="tv"><div class="tvh"><span>RESULTADO DE LA CAMPAÑA</span></div>${rows(sorted(),mxp(),1)}<p class="narr">${narr()}</p></div>`}
+function vRound(){if(!S.parties.length)return'<p>Primero creá los partidos en la pestaña Partidos.</p>';
+const pl=S.log.filter(x=>x.topic).map(x=>x.topic),left=CFG.topics.map((t,i)=>[t,i]).filter(([t])=>!pl.includes(t.n));
+if(!S.R){if(!left.length)return track()+finalBoard();
+return track()+`<h2>Ronda ${pl.length+1} de ${CFG.topics.length}</h2><div class="card"><div class="row"><select id="tp">${left.map(([t,i])=>`<option value="${i}">${t.n}</option>`).join('')}</select><label>Vale <select id="im"><option value="1">×1</option><option value="1.5">×1.5</option><option value="2">×2</option></select></label><label>Dado <select id="dd">${CFG.dice.map(d=>`<option>${d}</option>`).join('')}</select></label><button class="pri" onclick="startRound()">Iniciar ronda</button></div></div>`}
+const t=CFG.topics[S.R.i],rk=rank(),tc={};rk.forEach(r=>tc[r.tot]=(tc[r.tot]||0)+1);
+const panel=S.R.ph<4?'':`<h3>Evaluación</h3><p class="m">Marcá el desempeño de cada partido en la barra y su coherencia con la ideología. Cada partido puede gastar 1 de capital político para sumar +2 en esta ronda (compensa, por ejemplo, una contradicción). Si hay empate, tirá el dado.</p>`+S.parties.map(p=>{const c=calc(p),i=rk.findIndex(r=>r.p.id==p.id);return `<div class="pr"><div class="pl"><span class="sgb2" style="background:${p.color};color:${ink(p.color)}">${esc(p.sigla||p.name.slice(0,4))}</span><b>${esc(p.name)}</b><div class="m">Ventaja de su estadística: ${sg(c.m)}</div></div><div class="segs" style="--c:${p.color}">${Array.from({length:10},(_,k)=>`<button class="seg${k<c.sc.b?' on':''}" aria-label="Desempeño ${k+1}" onclick="sb('${p.id}',${k+1})"></button>`).join('')}</div><div class="row">${CFG.cats.map((k,j)=>`<button class="cb c${j}${j==c.sc.cn?' on':''}" onclick="sk('${p.id}',${j})">${k[0].split(' ')[0]}</button>`).join('')}</div><div class="row"><button class="cb c0${c.sc.cp?' on':''}" ${capOf(p)<1&&!c.sc.cp?'disabled':''} onclick="scp('${p.id}')" title="Gastar 1 de capital político: +2 en esta ronda">Capital ${capOf(p)}</button><button onclick="roll('${p.id}')" title="Tirar dado">🎲</button>${c.sc.d?`<span class="die">${c.sc.d}</span>`:''}${tc[c.tot]>1?'<span class="neg">empate</span>':''}</div><b class="pos">${i+1}.º</b></div>`}).join('');
+return track()+rcard(t,S.R.i+1,S.R.imp)+phb()+panel+`<div class="row" style="margin-top:12px">${S.R.ph?`<button onclick="ph(-1)">Fase anterior</button>`:''}${S.R.ph<4?`<button class="pri" onclick="ph(1)">Siguiente: ${PH[S.R.ph+1]}</button>`:`<button class="pri" onclick="ask('cr',closeRound)">${S.ask=='cr'?'¿Seguro? Cerrar y asignar puntos':'Cerrar ronda y asignar puntos'}</button>`}<button class="bad" onclick="S.R=null;save();render()">Cancelar ronda</button></div>`}
+function vLog(){return `<h2>Historial</h2>`+(S.log.map(x=>`<div class="m"><b>${x.t}</b> ${esc(x.m)}</div>`).join('')||'<p class="m">Todavía no hay acciones.</p>')+`<div class="row" style="margin-top:16px"><button class="bad" onclick="ask('rs',()=>{reset();save();render()})">${S.ask=='rs'?'¿Seguro? Se borra todo':'Reiniciar partida'}</button></div><div class="card" style="margin-top:12px"><h3>Cambiar contraseña de docente</h3><div class="row"><input id="pw1" type="password" placeholder="Nueva contraseña" autocomplete="new-password"><input id="pw2" type="password" placeholder="Repetila" autocomplete="new-password"><button onclick="setPw()">Cambiar</button></div></div>`}
+function vProj(){if(allDone())return `<div>${track()}${finalBoard()}</div>`;return `<div>${track()}${S.R?rcard(CFG.topics[S.R.i],S.R.i+1,S.R.imp)+phb():''}<div class="tv"><div class="tvh"><span>TABLA DE POSICIONES</span></div>${rows(sorted(),mxp())}</div></div>`}
+const V={parties:['Partidos',vParties],round:['Debate',vRound],log:['Historial',vLog],proj:['Proyector',vProj],fichas:['Fichas',vFichas]};
+let UNL=false;const ss=(k,v)=>{try{if(v===undefined)return sessionStorage.getItem(k);sessionStorage.setItem(k,v)}catch(e){}},isUnl=()=>UNL||ss('ceu')=='1',unlock=()=>{UNL=true;ss('ceu','1')},lock=()=>{UNL=false;ss('ceu','0');render()};
+const cy=t=>{let h1=0xdeadbeef,h2=0x41c6ce57;for(let i=0;i<t.length;i++){const c=t.charCodeAt(i);h1=Math.imul(h1^c,2654435761);h2=Math.imul(h2^c,1597334677)}h1=Math.imul(h1^(h1>>>16),2246822507)^Math.imul(h2^(h2>>>13),3266489909);h2=Math.imul(h2^(h2>>>16),2246822507)^Math.imul(h1^(h1>>>13),3266489909);return(4294967296*(2097151&h2)+(h1>>>0)).toString(36)};
+async function H(t){try{const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode('ce|'+t));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}catch(e){return'x'+cy('ce|'+t)}}
+async function setPw(){const a=$('#pw1').value,b=$('#pw2').value;if(a.length<4)return msg('Usá al menos 4 caracteres.');if(a!=b)return msg('Las contraseñas no coinciden.');S.pw=await H(a);save();unlock();msg('Contraseña guardada.')}
+async function login(){if(await H($('#pw1').value)==S.pw){unlock();render()}else msg('Contraseña incorrecta.')}
+const vSetPw=()=>`<h2>Contraseña de docente</h2><div class="card"><p class="m">Elegí una contraseña para que solo vos puedas manejar la partida en este dispositivo.</p><div class="row"><input id="pw1" type="password" placeholder="Contraseña" autocomplete="new-password"><input id="pw2" type="password" placeholder="Repetila" autocomplete="new-password"></div><div class="row"><button class="pri" onclick="setPw()">Guardar contraseña</button><button onclick="S.role=null;render()">Volver</button></div></div>`;
+const vLogin=()=>`<h2>Acceso docente</h2><div class="card"><div class="row"><input id="pw1" type="password" placeholder="Contraseña" autocomplete="current-password" onkeydown="if(event.key=='Enter')login()"><button class="pri" onclick="login()">Entrar</button></div><div class="row"><button class="bad" onclick="ask('fp',()=>{reset();S.role='dm';save();render()})">${S.ask=='fp'?'¿Seguro? Se borra toda la partida':'Olvidé la contraseña (borra la partida)'}</button><button onclick="S.role=null;render()">Volver</button></div></div>`;
+const safe=f=>{try{return f()}catch(e){return `<div class="card"><h3>Esta pantalla falló</h3><p class="m">${esc(e.message)}</p><div class="row"><button class="pri" onclick="S.R=null;S.view='parties';save();render()">Cancelar la ronda en curso y volver</button></div></div>`}};
+function render(){let body,nav='';
+if(GM)body=vGM(GM);else{const role=S.role||(S.parties.length?'dm':null);
+if(!role)body=landing();else if(role=='grp')body=vPaste();else if(!S.pw)body=vSetPw();else if(!isUnl())body=vLogin();else{nav=Object.entries(V).map(([k,[n]])=>`<button class="${S.view==k?'on':''}" onclick="view('${k}')">${n}</button>`).join('')+'<button onclick="lock()">Bloquear</button>';body=safe(V[S.view][1])}}
+$('#nav').innerHTML=nav;$('#app').innerHTML=(S.msg?`<div class="note">${esc(S.msg)}</div>`:'')+(S.tx?`<div class="note">Copiá este texto:<textarea readonly onclick="this.select()">${esc(S.tx)}</textarea></div>`:'')+body;S.msg='';S.tx=''}
+load();readHash();addEventListener('hashchange',()=>{readHash();render()});render();
+</script></body></html>
