@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fondos de la Nación: el juego</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#16123a;--panel:#241c5c;--ink:#f4f0ff;--dim:#a9a0d8;--cy:#38f0ff;--ye:#ffd23f;--mg:#ff4fa3;--gr:#5dff8a;--rd:#ff5a5a;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*:before,*:after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'VT323','Courier New',monospace;font-size:22px;line-height:1.25;
+background-image:linear-gradient(rgba(56,240,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(56,240,255,.07) 1px,transparent 1px);background-size:32px 32px}
+h1,h2,h3,.px{font-family:'Press Start 2P','Courier New',monospace;font-weight:400;line-height:1.5}
+nav{display:none}
+nav a{flex:none;color:var(--ink);text-decoration:none;border:3px solid var(--dim);background:var(--panel);padding:6px 12px;font-size:20px;white-space:nowrap}
+nav a[aria-current=page]{border-color:var(--ye);background:#33287a;color:var(--ye)}
+nav.locked a{pointer-events:none;opacity:.45}nav.locked a[href="#votacion"]{pointer-events:auto;opacity:1;border-color:var(--ye);color:var(--ye)}
+nav a:focus-visible,.btn:focus-visible,.slot:focus-visible,.x:focus-visible,input:focus-visible{outline:3px solid var(--cy);outline-offset:3px}
+main{max-width:760px;margin:0 auto;padding:16px}
+.hero{display:flex;align-items:center;gap:18px;margin:14px 0 22px}
+.ava{font-size:64px;width:112px;height:112px;display:grid;place-items:center;background:var(--panel);border:5px solid var(--c);box-shadow:6px 6px 0 rgba(0,0,0,.45);flex:none}
+.hero h1{font-size:clamp(16px,4.6vw,26px);color:var(--c);margin:0 0 8px;text-shadow:3px 3px 0 rgba(0,0,0,.5)}
+.cls{color:var(--dim);font-size:24px}
+.sheet{background:var(--panel);border:4px solid var(--c);box-shadow:6px 6px 0 rgba(0,0,0,.45);padding:18px}
+.stat{display:grid;grid-template-columns:120px 1fr 40px;gap:10px;align-items:center;margin:10px 0;font-size:24px}
+.track{height:22px;background:var(--bg);border:3px solid var(--dim);display:flex;gap:3px;padding:2px}
+.track i{flex:1;background:#2b2470}.track i.on{background:var(--c)}
+.stat b{font-family:'Press Start 2P',monospace;font-weight:400;font-size:13px;text-align:right}
+h2{font-size:14px;color:var(--cy);margin:30px 0 14px}
+.btn{font-family:'Press Start 2P',monospace;font-size:12px;background:var(--ye);color:#16123a;border:0;padding:14px 18px;cursor:pointer;box-shadow:0 5px 0 #b38900}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 #b38900}
+.btn[disabled]{background:#5a5290;box-shadow:0 5px 0 #3b3290;cursor:not-allowed;color:#c9c2ee}
+.btn.alt{background:var(--dim);box-shadow:0 5px 0 #6b64a0;font-size:10px}
+.deckbar{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.left{color:var(--ye)}
+.slots{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-top:18px}
+.slot{aspect-ratio:3/4;max-height:180px;background:repeating-linear-gradient(45deg,#2b2470 0 8px,#241c5c 8px 16px);border:4px solid var(--dim);color:var(--dim);display:grid;place-items:center;text-align:center;padding:8px;font:inherit;cursor:default}
+.slot.on{background:var(--panel);border-color:var(--c);color:var(--ink);cursor:pointer}
+.slot .em{font-size:34px;display:block}.slot b{font-family:'Press Start 2P',monospace;font-weight:400;font-size:8px;line-height:1.5;color:var(--c)}
+.slot.q{font-family:'Press Start 2P',monospace;font-size:26px}
+.hud{background:var(--bg);border:4px solid var(--ye);padding:8px 12px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.hud b{font-family:'Press Start 2P',monospace;font-weight:400;font-size:14px}
+.ok{color:var(--gr)}.bad{color:var(--rd)}
+.row{display:grid;grid-template-columns:170px 1fr 56px;gap:12px;align-items:center;padding:8px 0;border-bottom:2px dashed #3b3290}
+.row label{color:var(--c)}
+input[type=range]{width:100%;accent-color:var(--c);height:28px}
+.pts{text-align:right;font-family:'Press Start 2P',monospace;font-size:12px}
+.ov{position:fixed;inset:0;z-index:50;background:rgba(10,7,32,.92);display:none;align-items:center;justify-content:center;padding:calc(16px + env(safe-area-inset-top,0px)) 16px calc(16px + env(safe-area-inset-bottom,0px));overflow:auto}
+.ov.show{display:flex}
+.big{position:relative;width:100%;max-width:560px;background:var(--panel);border:6px solid var(--c);box-shadow:10px 10px 0 rgba(0,0,0,.5);padding:28px 22px 24px;text-align:center;animation:fl .5s steps(5)}
+@keyframes fl{from{transform:scale(.6) rotateY(90deg)}to{transform:none}}
+@media(prefers-reduced-motion:reduce){.big{animation:none}}
+.big .em{font-size:72px;line-height:1}
+.big h2{font-size:clamp(14px,4vw,20px);color:var(--c);margin:14px 0}
+.big p{font-size:26px;margin:0 0 14px}
+.x{position:absolute;top:8px;right:8px;width:48px;height:48px;background:var(--rd);color:#fff;border:0;font-family:'Press Start 2P',monospace;font-size:18px;cursor:pointer;box-shadow:0 4px 0 #a02c2c}
+.eff{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.eff span{border:3px solid;padding:2px 8px;font-size:20px}
+.eff .up{border-color:var(--gr);color:var(--gr)}.eff .dn{border-color:var(--rd);color:var(--rd)}
+.syncbox{margin:0 0 16px;padding:10px 12px;border:3px solid var(--ye);background:var(--panel);font-size:20px}
+.syncbox small{display:block;color:var(--dim);font-size:18px;margin-top:4px}
+.roundbox{margin:0 0 16px;padding:12px;border:4px solid var(--cy);background:var(--bg);display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.roundbox strong{font-family:'Press Start 2P',monospace;font-size:12px;color:var(--ye)}.timer{font-family:'Press Start 2P',monospace;font-size:clamp(18px,5vw,28px);color:var(--gr)}.timer.expired{color:var(--rd)}
+.round-actions{display:flex;gap:8px;flex-wrap:wrap}.mini{font-size:10px;padding:10px 12px}
+.round-scores{width:100%;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px;padding-top:10px;border-top:2px dashed #3b3290}.round-score{text-align:center;min-width:0}.round-score span{display:block;color:var(--dim);font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.round-score b{display:block;font-family:'Press Start 2P',monospace;font-size:clamp(17px,4vw,28px);line-height:1.5;color:var(--c)}
+.round-score.you{outline:3px solid var(--ye);outline-offset:2px;background:#33287a}.round-score.you span,.round-score.you b{color:var(--ye)}.round-score .you-tag{display:inline-block;margin-bottom:3px;padding:2px 6px;border:2px solid var(--ye);color:var(--ye);font-family:'Press Start 2P',monospace;font-size:9px;line-height:1.4}
+.phase-label{margin-top:6px;color:var(--cy);font-size:20px}.event-notice,.allocation-banner{margin:16px 0;padding:14px;border:3px solid var(--ye);background:var(--panel)}.event-notice strong,.allocation-banner>strong{font-family:'Press Start 2P',monospace;font-size:11px;color:var(--ye)}.event-notice p,.allocation-banner p{margin:8px 0 0}.allocation-banner{border-color:var(--rd)}.allocation-banner>strong{color:var(--rd)}.pause-shade,.modal-shade{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:16px;background:rgba(10,7,32,.9);color:#fff;text-align:center;overflow:auto}.pause-card{width:min(100%,680px);max-height:calc(100dvh - 32px);overflow:auto;padding:20px;border:5px solid var(--rd);background:var(--panel);box-shadow:8px 8px 0 rgba(0,0,0,.5)}.pause-card h2{color:var(--rd);margin:0 0 8px}.pause-card p{margin:6px 0 14px}.modal-card{width:min(100%,780px);max-height:calc(100dvh - 32px);overflow:auto;padding:18px;background:var(--panel);border:5px solid var(--ye);box-shadow:8px 8px 0 rgba(0,0,0,.5);text-align:left}.modal-card h2{margin:8px 0 14px}.modal-clock{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px;border:3px solid var(--cy);font-family:'Press Start 2P',monospace;font-size:11px;color:var(--ye)}.modal-clock .timer{white-space:nowrap}.round-theme{margin:14px 0;padding:12px;border:3px solid var(--ye);color:var(--ye);font-family:'Press Start 2P',monospace;font-size:11px;line-height:1.7}.confirmed-points{color:var(--ye)!important}.nation-sheet{margin-top:16px}.nation-sheet .row{grid-template-columns:190px 1fr 70px}.nation-sheet #confirm-allocation{margin-top:18px}.nation-sheet .round-scores{margin-top:18px}
+.points-note{margin-top:18px;padding:10px;border:2px dashed var(--ye);color:var(--ye)}
+.stats-grid{display:grid;gap:12px}.stats-card{background:var(--bg);border:3px solid var(--c);padding:12px}.stats-card h3{font-size:11px;color:var(--c);margin:0 0 10px}.stats-card p{margin:4px 0}
+.log{margin-top:18px;padding:12px;background:var(--bg);border:3px solid var(--dim)}.log h2{margin:0 0 8px}.log ul{margin:0;padding-left:24px}.log li{padding:4px 0}
+.event-log{margin:12px 0;padding:12px;border:3px solid var(--event-color,var(--dim));background:var(--panel)}.event-log h3{font-size:10px;color:var(--event-color,var(--cy));margin:0 0 8px}.event-log p{margin:0 0 8px}.event-log .eff{justify-content:flex-start}
+@media(max-width:520px){main{padding:10px}.stat{grid-template-columns:100px 1fr 34px;gap:6px;font-size:20px}.row,.nation-sheet .row{grid-template-columns:1fr 56px}.row input{grid-column:1/-1;grid-row:2}.ava{width:84px;height:84px;font-size:46px}.round-scores{grid-template-columns:repeat(3,minmax(0,1fr))}.roundbox{align-items:flex-start}.timer{font-size:21px}.nation-sheet{padding:12px}}
+html.province-view,body.province-view{width:100%;height:100%;min-height:100%;overflow:hidden;overscroll-behavior:none}
+body.province-view{position:fixed;inset:0;margin:0;touch-action:none}
+body.province-view #page{position:fixed;inset:0;width:100vw;height:100dvh;overflow:hidden;margin:0;padding:0;max-width:none}
+.province-screen{position:fixed;inset:0;width:100vw;height:100dvh;display:grid;grid-template-rows:clamp(52px,8vh,78px) clamp(12px,2vh,22px) minmax(100px,27vh) clamp(12px,2vh,22px) minmax(0,1fr);overflow:hidden;background:#07304c url('Assets/background1.png') center/100% 100% no-repeat}
+.province-header{display:grid;place-items:center;min-width:0;padding:0 8vw;background:#071923 url('Assets/background-up.png') center/100% 100% no-repeat}
+.province-header h1{max-width:90vw;margin:0;color:#fff;text-align:center;font-family:Georgia,'Times New Roman',serif;font-size:clamp(24px,6vw,46px);font-weight:700;line-height:1.05;text-shadow:3px 4px 2px #000,0 0 8px #000}
+.province-wood{width:100%;height:100%;background:url('Assets/bar1.png') center/100% 100% no-repeat}
+.province-landscape{width:100%;height:100%;background-image:var(--province-scene);background-repeat:repeat-x;background-position:center;background-size:auto 100%;image-rendering:pixelated}
+.province-statistics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(3,auto);align-content:start;align-items:center;justify-items:stretch;column-gap:clamp(8px,3vw,28px);row-gap:clamp(12px,2.8vh,24px);min-height:0;padding:clamp(14px,2vh,22px) 9.5vw;background:url('Assets/background1.png') center/100% 100% no-repeat}
+.province-stat{display:flex;align-items:center;justify-content:flex-start;gap:clamp(5px,1vw,10px);min-width:0;color:#fff;font-family:Georgia,'Times New Roman',serif;font-size:clamp(15px,4vw,21px);font-weight:700;line-height:1.1;white-space:nowrap;text-shadow:2px 3px 2px #000,0 0 5px #000}
+.province-stat[data-stat="Infraestructura"]{grid-column:1/-1;justify-self:center}
+.province-stat-icon{display:grid;place-items:center;flex:none;width:clamp(46px,11vw,56px);height:clamp(46px,11vw,56px);padding:clamp(9px,2vw,12px);background:url('Assets/background2.png') center/100% 100% no-repeat;image-rendering:pixelated}
+.province-stat-icon img{display:block;width:100%;height:100%;object-fit:contain;image-rendering:pixelated}.province-stat-icon .fallback-icon{font-size:clamp(21px,6vw,32px);line-height:1}
+.province-stat-label{overflow:visible;text-overflow:clip}.province-stat-value{position:relative;display:inline-block;margin-left:3px;padding-right:clamp(14px,3vw,20px)}.stat-delta-float{position:absolute;left:calc(100% - clamp(14px,3vw,20px) + 3px);top:50%;z-index:2;white-space:nowrap;font:700 clamp(15px,3.5vw,20px)/1 Georgia,'Times New Roman',serif;text-shadow:1px 2px 2px #000;pointer-events:none;animation:stat-delta-rise 3.8s cubic-bezier(.22,.61,.36,1) forwards}.stat-delta-float.up{color:#36f047}.stat-delta-float.down{color:#f22}@keyframes stat-delta-rise{0%{opacity:0;transform:translateY(14px)}12%{opacity:1;transform:translateY(0)}78%{opacity:1;transform:translateY(-12px)}100%{opacity:0;transform:translateY(-22px)}}
+.event-toast{position:fixed;z-index:90;left:50%;bottom:max(12px,env(safe-area-inset-bottom));display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:clamp(10px,3vw,20px);width:min(90vw,480px);min-height:96px;padding:20px clamp(28px,7vw,48px);background:url('Assets/background3.png') center/100% 100% no-repeat;color:#fff;transform:translate(-50%,140%);opacity:0;animation:event-toast-rise 1.15s cubic-bezier(.22,.61,.36,1) forwards;font-family:Georgia,'Times New Roman',serif;text-shadow:2px 2px 2px #000}
+.event-toast-emoji{font-size:clamp(24px,7vw,38px);line-height:1}.event-toast-content{min-width:0}.event-toast-title{display:block;font-size:clamp(17px,4.8vw,23px);font-weight:700;line-height:1.15;overflow-wrap:anywhere}.event-toast-province{display:block;margin-top:3px;color:#ddd;font-size:clamp(13px,3.5vw,16px)}.event-toast-change{display:block;margin-top:5px;font-size:clamp(15px,4vw,19px);font-weight:700}.event-toast-change.up{color:#36f047}.event-toast-change.down{color:#f22}.event-toast-change.neutral{color:#fff}
+.event-toast.no-rise{transform:translate(-50%,0);opacity:1;animation:none}
+@keyframes event-toast-rise{0%{transform:translate(-50%,140%);opacity:0}100%{transform:translate(-50%,0);opacity:1}}
+@media(prefers-reduced-motion:reduce){.event-toast{animation-duration:.01ms}}
+@media(min-width:900px){.province-screen{grid-template-rows:clamp(62px,9vh,94px) clamp(14px,2vh,24px) minmax(130px,30vh) clamp(14px,2vh,24px) minmax(0,1fr)}.province-header{padding-inline:10vw}.province-header h1{font-size:clamp(38px,4vw,60px)}.province-statistics{padding-inline:10vw;column-gap:clamp(14px,3vw,44px);row-gap:clamp(16px,2.5vh,28px)}.province-stat{font-size:clamp(20px,1.9vw,30px)}.province-stat-icon{width:clamp(56px,5vw,68px);height:clamp(56px,5vw,68px);padding:clamp(10px,1vw,14px)}}
+@media(max-height:560px){.province-screen{grid-template-rows:clamp(42px,9vh,52px) 10px minmax(82px,24vh) 10px minmax(0,1fr)}.province-statistics{row-gap:8px;padding-top:6px;padding-bottom:2px}.province-stat{font-size:clamp(12px,3.2vw,17px)}.province-stat-icon{width:clamp(28px,7vh,36px);height:clamp(28px,7vh,36px);padding:3px}}
+</style>
+</head>
+<body>
+<main id="page"></main>
+
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js';
+import { getDatabase, ref, onValue, runTransaction, serverTimestamp } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyB9DFNwVrGh236MdOF9zxcXP8ZEJhh7tuk",
+  authDomain: "proyecto-naciones.firebaseapp.com",
+  databaseURL: "https://proyecto-naciones-default-rtdb.firebaseio.com",
+  projectId: "proyecto-naciones",
+  storageBucket: "proyecto-naciones.firebasestorage.app",
+  messagingSenderId: "862886174294",
+  appId: "1:862886174294:web:12a26518a74da2b3faa5f7",
+  measurementId: "G-925FKZ0MCW"
+};
+window.fondosSync = {ready:false, room:new URLSearchParams(location.search).get('sala') || 'aula', state:null, stateVersion:7, status:'Configuración de sincronización pendiente'};
+window.fondosReady = (async()=>{
+  if(!firebaseConfig?.apiKey || !firebaseConfig?.databaseURL) return;
+  try {
+    const app=initializeApp(firebaseConfig), db=getDatabase(app), roomRef=ref(db,'salas/'+window.fondosSync.room);
+    window.fondosSync.update=async updater=>{const result=await runTransaction(roomRef,current=>updater(current||null));return result.snapshot.val()};
+    window.fondosSync.timestamp=serverTimestamp;
+    onValue(roomRef,snapshot=>{window.fondosSync.state=snapshot.val();window.fondosSync.ready=true;window.fondosSync.status='Conectado · sala '+window.fondosSync.room;if(!snapshot.exists())window.fondosSync.update(current=>current||{stateVersion:7}).catch(error=>{window.fondosSync.status='No se pudo iniciar la sala: '+error.message;window.dispatchEvent(new Event('fondos-sync'))});window.dispatchEvent(new Event('fondos-sync'))},error=>{window.fondosSync.status='Error de conexión: '+error.message;window.dispatchEvent(new Event('fondos-sync'))});
+  } catch(error) { window.fondosSync.status='Error de conexión: '+error.message;window.dispatchEvent(new Event('fondos-sync')) }
+})();
+</script>
+
+<div class="ov" id="ov" role="dialog" aria-modal="true" aria-labelledby="otitle">
+  <div class="big" id="big">
+    <button class="x" type="button" id="close" aria-label="Cerrar carta">X</button>
+    <div class="em" id="oem"></div><h2 id="otitle"></h2><p id="odesc"></p><div class="eff" id="oeff"></div>
+  </div>
+</div>
+
+<script>
+const P=[
+  {id:'ba',n:'Buenos Aires',e:'🏭',c:'#ff4fa3',s:{Sanidad:65,Economía:85,Infraestructura:75,Educación:70,'Medio ambiente':45,Seguridad:60}},
+  {id:'me',n:'Mendoza',e:'🍇',c:'#b57bff',s:{Sanidad:65,Economía:70,Infraestructura:65,Educación:70,'Medio ambiente':60,Seguridad:65}},
+  {id:'co',n:'Córdoba',e:'🚜',c:'#38f0ff',s:{Sanidad:70,Economía:80,Infraestructura:70,Educación:80,'Medio ambiente':55,Seguridad:65}},
+  {id:'mi',n:'Misiones',e:'🌳',c:'#5dff8a',s:{Sanidad:55,Economía:60,Infraestructura:50,Educación:60,'Medio ambiente':90,Seguridad:60}},
+  {id:'sa',n:'Salta',e:'⛰️',c:'#ffd23f',s:{Sanidad:50,Economía:65,Infraestructura:45,Educación:55,'Medio ambiente':65,Seguridad:55}},
+  {id:'tf',n:'Tierra del Fuego',e:'❄️',c:'#7fb4ff',s:{Sanidad:70,Economía:65,Infraestructura:55,Educación:75,'Medio ambiente':80,Seguridad:70}}
+];
+const STAT_ICONS={Sanidad:'🏥',Economía:'💰',Infraestructura:'🛣️',Educación:'📚','Medio ambiente':'🌳',Seguridad:'🛡️'};
+const STAT_ASSETS={Economía:'economia-icon.png',Educación:'educacion-icon.png',Sanidad:'sanidad-icon.png', 'Medio ambiente':'ambiente-icon.png',Infraestructura:'infraestructurado-icon.png'};
+const STAT_ORDER=['Economía','Educación','Sanidad','Medio ambiente','Infraestructura','Seguridad'];
+const ROUND_THEMES={1:'Infraestructura',2:'Hospitales',3:'Educación',4:'Seguridad',5:'Todas las áreas'};
+const EVENTS=[
+ {id:'vacunas',title:'🚚 Camión con vacunas',stat:'Sanidad',delta:15},
+ {id:'epidemia',title:'🧫 Epidemia desconocida',stat:'Sanidad',delta:-12},
+ {id:'meteorito',title:'☄️ Meteorito destruye una zona urbana',stat:'Infraestructura',delta:-12},
+ {id:'fabrica',title:'🏭 Se instala una fábrica',stat:'Economía',delta:12},
+ {id:'quiebra',title:'📉 Quiebra de varias empresas',stat:'Economía',delta:-12},
+ {id:'computadoras',title:'💻 Donación de computadoras escolares',stat:'Educación',delta:12},
+ {id:'lluvia-acida',title:'🌧️ Lluvia ácida',stat:'Medio ambiente',delta:-12},
+ {id:'reforestacion',title:'🌱 Campaña de reforestación',stat:'Medio ambiente',delta:10},
+ {id:'zombis',title:'🧟 Aparecen zombis en una ciudad',stat:'Seguridad',delta:-15},
+ {id:'rescate',title:'🚑 Llegan equipos de rescate',stat:'Seguridad',delta:12},
+ {id:'terremoto',title:'🌎 Terremoto que destruye hospitales',stat:'Sanidad',delta:-8},
+ {id:'puente',title:'🏗️ Se reconstruye un puente',stat:'Infraestructura',delta:10},
+ {id:'incendio',title:'🔥 Incendio forestal',stat:'Medio ambiente',delta:-10},
+ {id:'sequia',title:'🌵 Sequía prolongada',stat:'Economía',delta:-8},
+ {id:'escuelas',title:'🏫 Cierre prolongado de escuelas',stat:'Educación',delta:-10},
+ {id:'tormenta',title:'⚡ Tormenta que destruye la red eléctrica',stat:'Infraestructura',delta:-10}
+];
+const SL={ba:'buenosaires',me:'mendoza',co:'cordoba',mi:'misiones',sa:'salta',tf:'tierradelfuego'};
+const PREP_MS=5*60*1000,ROUND_MS=10*60*1000,ROUNDS=5,BUDGET=100,STATE_VERSION=7;
+const $=s=>document.querySelector(s),BASE=Object.fromEntries(P.map(p=>[p.id,{...p.s}]));
+const blank=()=>({stateVersion:STATE_VERSION,stats:structuredClone(BASE),round:1,phase:'idle',phaseStartedAt:0,phaseEndsAt:0,allocations:Object.fromEntries(P.map(p=>[p.id,0])),confirmedAllocations:Object.fromEntries(P.map(p=>[p.id,0])),scheduledEvents:[],eventLog:[]});
+let game=blank(),allocTimer=null,transitioning=false,toastQueue=[],activeToast=null,toastTimeout=null,queuedToastIds=new Set(),shownToastIds=new Set(),animatedToastIds=new Set();
+const LOCAL_KEY='fondos-nacion-estado-v2';
+function normalize(raw){if(!raw||raw.stateVersion!==STATE_VERSION)return blank();const clean=blank();return {...clean,...raw,stats:Object.fromEntries(P.map(p=>[p.id,{...BASE[p.id],...(raw.stats?.[p.id]||{})}])),allocations:Object.fromEntries(P.map(p=>[p.id,Math.max(0,Number(raw.allocations?.[p.id])||0)])),usedEvents:Array.isArray(raw.usedEvents)?raw.usedEvents:[],eventLog:Array.isArray(raw.eventLog)?raw.eventLog:[]}}
+function migrateState(raw){if(!raw||raw.stateVersion!==6)return blank();const allocations=Object.fromEntries(P.map(p=>[p.id,Math.max(0,Number(raw.allocations?.[p.id])||0)])),stats=Object.fromEntries(P.map(p=>[p.id,{...BASE[p.id],...(raw.stats?.[p.id]||{})}])),confirmedAllocations=Object.fromEntries(P.map(p=>[p.id,0]));let phase=raw.phase,phaseEndsAt=Number(raw.phaseEndsAt)||0;if(phase==='distribution'){phase='ready';phaseEndsAt=0}if(phase==='round'){for(const p of P){stats[p.id].Economía=(Number(stats[p.id].Economía)||0)+(allocations[p.id]||0);confirmedAllocations[p.id]=allocations[p.id]}phase='waiting';phaseEndsAt=0}return normalize({...raw,stateVersion:STATE_VERSION,stats,phase,phaseEndsAt,allocations:phase==='ready'?Object.fromEntries(P.map(p=>[p.id,0])):allocations,confirmedAllocations})}
+function saveLocal(){try{localStorage.setItem(LOCAL_KEY,JSON.stringify(game))}catch{}}
+function loadLocal(){try{const saved=JSON.parse(localStorage.getItem(LOCAL_KEY)||'null');if(saved?.stateVersion===STATE_VERSION)game=normalize(saved);else if(saved?.stateVersion===6){game=migrateState(saved);saveLocal()}}catch{}}
+loadLocal();
+function setProvinceStats(){P.forEach(p=>p.s={...game.stats[p.id]})}
+function render(){setProvinceStats();const hash=location.hash.slice(1),p=P.find(x=>SL[x.id]===hash);document.body.classList.toggle('province-view',!!p);document.documentElement.classList.toggle('province-view',!!p);if(p)$('#page').innerHTML=provincePage(p);else $('#page').innerHTML=nationPage();const sync=$('#sync-status');if(sync)sync.textContent=window.fondosSync?.status||'Estado local';if(activeToast)$('#page').insertAdjacentHTML('beforeend',toastMarkup(activeToast));if(!p)window.scrollTo(0,0)}
+function updateProvinceStatsInPlace(p,event=null){const stats=game.stats[p.id]||{};for(const [name,value] of Object.entries(stats)){if(name==='Seguridad')continue;const row=$(`#page [data-stat="${CSS.escape(name)}"]`),valueNode=row?.querySelector('.province-stat-value');if(!valueNode)continue;valueNode.firstChild?.nodeType===Node.TEXT_NODE?valueNode.firstChild.textContent=String(value):valueNode.insertBefore(document.createTextNode(String(value)),valueNode.firstChild);if(event){const change=event.changes?.find(item=>item.stat===name),delta=Number(change?.delta)||0;if(delta){const marker=document.createElement('span');marker.className=`stat-delta-float ${delta>0?'up':'down'}`;marker.setAttribute('aria-label',`${delta>0?'Subió':'Bajó'} ${Math.abs(delta)}`);marker.textContent=`${delta>0?'+':''}${delta}`;valueNode.append(marker);setTimeout(()=>marker.remove(),3900)}}}}
+function phaseLabel(){return ({idle:'Partida sin iniciar',prep:'Preparación',ready:'Debate listo',distribution:'Debate en curso · reparto',waiting:'Esperando siguiente ronda',finished:'Partida finalizada'})[game.phase]||'Partida'}
+function roundTheme(){return ROUND_THEMES[game.round]||'Todas las áreas'}
+function timeLeft(){return Math.max(0,Math.ceil((Number(game.phaseEndsAt||0)-Date.now())/1000))}
+function clockMarkup(){const show=game.phase==='prep'||game.phase==='distribution';return `<div class="roundbox"><div><strong>RONDA ${Math.min(game.round,ROUNDS)} / ${ROUNDS}</strong><div class="phase-label">${phaseLabel()}</div></div>${show?`<span class="timer" data-clock="${game.phaseEndsAt}">${formatTime(timeLeft())}</span>`:''}</div>`}
+function formatTime(seconds){return `${String(Math.floor(seconds/60)).padStart(2,'0')}:${String(seconds%60).padStart(2,'0')}`}
+function scoreRows(source=game.allocations,confirmed=false){return `<div class="round-scores">${P.map(p=>`<div class="round-score" style="--c:${p.c}"><span>${p.n}</span><b class="${confirmed?'confirmed-points':''}" id="allocated-${p.id}">${confirmed?'+':''}${source[p.id]||0} pts</b></div>`).join('')}</div>`}
+function statsMarkup(p){return `<section class="province-statistics" aria-label="Estadísticas de ${p.n}">${STAT_ORDER.filter(name=>name!=='Seguridad'&&name in game.stats[p.id]).map(name=>{const value=game.stats[p.id][name],asset=STAT_ASSETS[name];return `<div class="province-stat" data-stat="${name}"><span class="province-stat-icon">${asset?`<img src="Assets/${asset}" alt="">`:`<span class="fallback-icon" aria-hidden="true">${STAT_ICONS[name]||'•'}</span>`}</span><span class="province-stat-label">${name==='Medio ambiente'?'Ambiente':name}:<span class="province-stat-value">${value}</span></span></div>`}).join('')}</section>`}
+function provincePage(p){const scene=p.id==='ba'?"url('Assets/buenosaires.png')":"url('Assets/background1.png')";return `<div class="province-screen"><header class="province-header"><h1>${p.n}</h1></header><div class="province-wood" aria-hidden="true"></div><div class="province-landscape" style="--province-scene:${scene}" role="img" aria-label="Paisaje de ${p.n}"></div><div class="province-wood" aria-hidden="true"></div>${statsMarkup(p)}</div>`}
+function toastMarkup(event){const viewProvince=P.find(p=>SL[p.id]===location.hash.slice(1));if(!viewProvince||viewProvince.id!==event.province)return '';const change=event.changes?.[0],province=P.find(p=>p.id===event.province),delta=Number(change?.delta)||0,kind=delta>0?'up':delta<0?'down':'neutral',stat=change?.stat||'Estadística',played=animatedToastIds.has(eventIdentity(event));return `<aside class="event-toast${played?' no-rise':''}" role="status" aria-live="polite"><span class="event-toast-emoji" aria-hidden="true">${event.emoji||event.title?.split(' ')[0]||'⚠️'}</span><div class="event-toast-content"><strong class="event-toast-title">${event.title?.replace(/^\S+\s*/,'')||'Evento'}</strong><span class="event-toast-province">${province?.n||'Provincia afectada'}</span><span class="event-toast-change ${kind}">${STAT_ICONS[stat]||''} ${stat} ${delta>0?'+':''}${delta}</span></div></aside>`}
+function eventIdentity(event){return event.key||`${event.at}-${event.round}-${event.province}-${event.title}`}
+function enqueueNewEvents(previous,next){const viewProvince=P.find(p=>SL[p.id]===location.hash.slice(1));if(!viewProvince)return false;const seen=new Set((previous.eventLog||[]).map(eventIdentity)),fresh=(next.eventLog||[]).filter(event=>!seen.has(eventIdentity(event))&&event.province===viewProvince.id&&!shownToastIds.has(eventIdentity(event))&&!queuedToastIds.has(eventIdentity(event)));if(!fresh.length)return false;for(const event of fresh){const id=eventIdentity(event);queuedToastIds.add(id);toastQueue.push(event)}return true}
+function showActiveToast(){const page=$('#page');if(!page)return;page.querySelector('.event-toast')?.remove();if(activeToast){const id=eventIdentity(activeToast);page.insertAdjacentHTML('beforeend',toastMarkup(activeToast));animatedToastIds.add(id)}}
+function startNextToast(){if(activeToast||!toastQueue.length)return;activeToast=toastQueue.shift();queuedToastIds.delete(eventIdentity(activeToast));showActiveToast();toastTimeout=setTimeout(advanceToast,5600)}
+function advanceToast(){if(activeToast)shownToastIds.add(eventIdentity(activeToast));activeToast=null;if(toastQueue.length){activeToast=toastQueue.shift();queuedToastIds.delete(eventIdentity(activeToast));showActiveToast();toastTimeout=setTimeout(advanceToast,5600)}else{toastTimeout=null;showActiveToast()}}
+function totalAllocation(a=game.allocations){return P.reduce((n,p)=>n+(Number(a[p.id])||0),0)}
+function allocationPanel(){const total=totalAllocation();return `<div class="hud"><span>Asignado: <b id="assigned">${total}</b> / ${BUDGET} pts</span><span>Disponible: <b id="available">${BUDGET-total}</b> pts</span><button class="btn alt" type="button" id="clear-allocation">Limpiar reparto</button></div><div id="allocations">${P.map(p=>`<div class="row" style="--c:${p.c}"><label for="money-${p.id}">${p.e} ${p.n}</label><input type="range" id="money-${p.id}" min="0" max="${BUDGET}" step="1" value="${game.allocations[p.id]||0}" data-money="${p.id}"><div class="pts" id="money-value-${p.id}">${game.allocations[p.id]||0} pts</div></div>`).join('')}</div>${scoreRows()}<button class="btn" type="button" id="confirm-allocation" ${total===BUDGET?'':'disabled'}>Confirmar reparto</button>`}
+function nationPage(){let content='';if(game.phase==='idle')content=`<div class="round-theme">TEMA DEL REPARTO: ${roundTheme()}</div><p>La Nación inicia cada ronda con 5 minutos de preparación y luego un debate de 10 minutos.</p><button class="btn" type="button" id="start-game">▶ Iniciar partida</button>`;if(game.phase==='prep')content=`<h2>Preparación de la ronda ${game.round}</h2><div class="round-theme">TEMA DEL REPARTO: ${roundTheme()}</div><p>Fase de preparación · 5 minutos.</p>`;if(game.phase==='ready')content=`<h2>Preparación terminada · ronda ${game.round}</h2><div class="round-theme">TEMA DEL REPARTO: ${roundTheme()}</div><p>Iniciá el debate para abrir el reparto. Tendrás 10 minutos.</p><button class="btn" type="button" id="start-debate">▶ Iniciar debate</button>`;if(game.phase==='distribution')content=`<h2>Debate de la ronda ${game.round}</h2><div class="round-theme">TEMA DEL REPARTO: ${roundTheme()}</div><p>El debate dura 10 minutos.</p>`;if(game.phase==='waiting')content=`<h2>Terminó el reparto de la ronda ${game.round}</h2><div class="round-theme">TEMA DEL REPARTO: ${roundTheme()}</div>${scoreRows(game.confirmedAllocations,true)}${game.round<ROUNDS?'<p>El reparto se aplicó a la Economía de cada provincia.</p><button class="btn" type="button" id="next-round">▶ Iniciar siguiente ronda</button>':'<p>Finalizaron las cinco rondas.</p>'}`;if(game.phase==='finished')content='<h2>Las cinco rondas terminaron</h2><p>La partida llegó a su fin.</p>';
+  const overlay=game.phase==='distribution'?`<div class="modal-shade"><section class="modal-card" role="dialog" aria-modal="true" aria-label="Reparto de puntos"><div class="modal-clock"><span>DEBATE · RONDA ${game.round} / ${ROUNDS}</span><span class="timer" data-clock="${game.phaseEndsAt}">${formatTime(timeLeft())}</span></div><div class="round-theme">TEMA DEL REPARTO: ${roundTheme()}</div>${allocationPanel()}</section></div>`:'';
+  return `${clockMarkup()}<div class="syncbox" id="sync-status"></div><div class="hero" style="--c:var(--ye)"><div class="ava">🏛️</div><div><h1>Nación</h1><div class="cls">Planificación y reparto del presupuesto</div></div></div><section class="sheet nation-sheet" style="--c:var(--ye)">${content}</section><div class="round-actions"><button class="btn alt mini" type="button" id="reset-game">Reiniciar partida</button></div>${overlay}`}
+function scheduleEvents(startAt){const scheduledEvents=[];for(const province of P){const count=3+Math.floor(Math.random()*6);for(let i=0;i<count;i++){const ev=EVENTS[Math.floor(Math.random()*EVENTS.length)];scheduledEvents.push({key:`${startAt}-${province.id}-${i}`,id:ev.id,province:province.id,at:startAt+Math.floor(Math.random()*(PREP_MS-1000))+500,applied:false})}}return scheduledEvents.sort((a,b)=>a.at-b.at)}
+function startPrep(state,round){const startAt=Date.now();return {...state,round,phase:'prep',phaseStartedAt:startAt,phaseEndsAt:startAt+PREP_MS,allocations:Object.fromEntries(P.map(p=>[p.id,0])),scheduledEvents:scheduleEvents(startAt)}}
+function applyDueEvents(state,now){const queue=Array.isArray(state.scheduledEvents)?state.scheduledEvents:[],stats={...state.stats},eventLog=[...state.eventLog];let changed=false;const scheduledEvents=queue.map(item=>{if(item.applied||item.at>now)return item;const ev=EVENTS.find(x=>x.id===item.id);if(!ev)return {...item,applied:true};changed=true;const changes=[];if(stats[item.province]){stats[item.province]={...stats[item.province]};const before=Number(stats[item.province][ev.stat])||0,raw=before+ev.delta,after=ev.stat==='Economía'?Math.max(0,raw):Math.max(0,Math.min(100,raw));stats[item.province][ev.stat]=after;changes.push({province:item.province,stat:ev.stat,delta:after-before})}const province=P.find(p=>p.id===item.province);eventLog.push({key:item.key,emoji:ev.title.split(' ')[0],title:ev.title,description:`${province?.n||'Provincia'} · ${ev.stat} ${ev.delta>0?'+':''}${ev.delta}`,changes,province:item.province,round:state.round,at:now});return {...item,applied:true}});return changed?{...state,stats,scheduledEvents,eventLog}:state}
+async function changeState(updater,shouldRender=true){const previous=game,sync=window.fondosSync;let next;if(sync?.ready&&sync.update){const saved=await sync.update(current=>updater(normalize(current)));next=normalize(saved)}else next=normalize(updater(game));const newEvents=enqueueNewEvents(previous,next),viewProvince=P.find(p=>SL[p.id]===location.hash.slice(1)),ownStatsChanged=viewProvince&&JSON.stringify(previous.stats?.[viewProvince.id])!==JSON.stringify(next.stats?.[viewProvince.id]),phaseChanged=previous.phase!==next.phase||previous.round!==next.round,allocationsChanged=JSON.stringify(previous.allocations)!==JSON.stringify(next.allocations),confirmedChanged=JSON.stringify(previous.confirmedAllocations)!==JSON.stringify(next.confirmedAllocations);game=next;setProvinceStats();saveLocal();if(newEvents)startNextToast();if(shouldRender){if(phaseChanged||(!viewProvince&&next.phase==='distribution'&&allocationsChanged)||(viewProvince&&previous.phase==='distribution'&&allocationsChanged)||(viewProvince&&previous.phase==='waiting'&&confirmedChanged))render();else if(ownStatsChanged&&viewProvince)updateProvinceStatsInPlace(viewProvince,newEvents?activeToast:null)}else{renderAllocationLive();if(ownStatsChanged&&viewProvince)updateProvinceStatsInPlace(viewProvince,newEvents?activeToast:null)}}
+function renderAllocationLive(){const total=totalAllocation();const assigned=$('#assigned'),available=$('#available'),confirm=$('#confirm-allocation');if(assigned)assigned.textContent=`${total}`;if(available)available.textContent=`${BUDGET-total}`;if(confirm)confirm.disabled=total!==BUDGET;for(const p of P){const n=$(`#money-value-${p.id}`),score=$(`#allocated-${p.id}`),slider=$(`#money-${p.id}`);if(n)n.textContent=`${game.allocations[p.id]||0} pts`;if(score)score.textContent=`${game.allocations[p.id]||0} pts`;if(slider&&document.activeElement!==slider)slider.value=String(game.allocations[p.id]||0)}}
+async function tick(){if(transitioning)return;const now=Date.now();if(game.phase==='prep'&&(game.scheduledEvents||[]).some(item=>!item.applied&&item.at<=now)){transitioning=true;try{await changeState(s=>applyDueEvents(s,now))}catch(e){console.warn(e)}finally{transitioning=false}return}if(game.phase==='prep'&&game.phaseEndsAt&&now>=game.phaseEndsAt){transitioning=true;try{await changeState(s=>({...s,phase:'ready',phaseStartedAt:now,phaseEndsAt:0}))}catch(e){console.warn(e)}finally{transitioning=false}}}
+function updateClock(){const remaining=timeLeft();document.querySelectorAll('[data-clock]').forEach(el=>{el.textContent=formatTime(remaining);el.classList.toggle('expired',remaining===0)})}
+$('#page').addEventListener('click',async e=>{if(e.target.closest('#start-game')){await changeState(s=>s.phase==='idle'?startPrep(s,1):s)}else if(e.target.closest('#start-debate')){await changeState(s=>s.phase==='ready'?{...s,phase:'distribution',phaseStartedAt:Date.now(),phaseEndsAt:Date.now()+ROUND_MS,allocations:Object.fromEntries(P.map(p=>[p.id,0]))}:s)}else if(e.target.closest('#confirm-allocation')){if(totalAllocation()!==BUDGET)return;const a={...game.allocations};await changeState(s=>{if(s.phase!=='distribution')return s;const stats={...s.stats};for(const p of P)stats[p.id]={...stats[p.id],Economía:(Number(stats[p.id]?.Economía)||0)+(Number(a[p.id])||0)};return {...s,stats,allocations:a,confirmedAllocations:a,phase:'waiting',phaseStartedAt:Date.now(),phaseEndsAt:0}})}else if(e.target.closest('#next-round')){await changeState(s=>s.phase==='waiting'&&s.round<ROUNDS?startPrep(s,s.round+1):s)}else if(e.target.closest('#clear-allocation')){await changeState(s=>({...s,allocations:Object.fromEntries(P.map(p=>[p.id,0]))}))}else if(e.target.closest('#reset-game')){if(!window.confirm('¿Reiniciar la partida y borrar su progreso?'))return;await changeState(()=>blank())}});
+$('#page').addEventListener('input',e=>{const id=e.target.dataset.money;if(!id)return;const others=totalAllocation()-Number(game.allocations[id]||0),value=Math.min(Number(e.target.value),BUDGET-others);game.allocations={...game.allocations,[id]:value};e.target.value=String(value);renderAllocationLive();clearTimeout(allocTimer);allocTimer=setTimeout(()=>{const a={...game.allocations};changeState(s=>({...s,allocations:a}),false).catch(console.warn)},180)});
+window.addEventListener('hashchange',render);
+setInterval(()=>{updateClock();tick()},500);
+window.addEventListener('fondos-sync',()=>{const sync=window.fondosSync;if(!sync.ready)return;if(!sync.state||sync.state.stateVersion!==STATE_VERSION){if(!sync.migrating&&sync.update){sync.migrating=true;sync.update(current=>current?.stateVersion===STATE_VERSION?current:migrateState(current)).then(s=>{sync.state=s;sync.migrating=false;game=normalize(s);saveLocal();render()}).catch(err=>{sync.migrating=false;sync.status='No se pudo preparar la partida: '+err.message;render()})}return}const previous=game,next=normalize(sync.state),newEvents=enqueueNewEvents(previous,next),viewProvince=P.find(p=>SL[p.id]===location.hash.slice(1)),ownStatsChanged=viewProvince&&JSON.stringify(previous.stats?.[viewProvince.id])!==JSON.stringify(next.stats?.[viewProvince.id]),phaseChanged=previous.phase!==next.phase||previous.round!==next.round,allocationsChanged=JSON.stringify(previous.allocations)!==JSON.stringify(next.allocations),confirmedChanged=JSON.stringify(previous.confirmedAllocations)!==JSON.stringify(next.confirmedAllocations);game=next;saveLocal();if(document.activeElement?.dataset?.money&&!newEvents){renderAllocationLive();return}if(newEvents)startNextToast();if(phaseChanged||(!viewProvince&&next.phase==='distribution'&&allocationsChanged)||(viewProvince&&previous.phase==='distribution'&&allocationsChanged)||(viewProvince&&previous.phase==='waiting'&&confirmedChanged))render();else if(ownStatsChanged&&viewProvince)updateProvinceStatsInPlace(viewProvince,newEvents?activeToast:null)});
+window.fondosReady?.then(()=>{const sync=window.fondosSync;if(sync.ready&&sync.state?.stateVersion===STATE_VERSION){game=normalize(sync.state);saveLocal();render()}});
+render();
+
+</script>
+</body>
+</html>
+
+
+
